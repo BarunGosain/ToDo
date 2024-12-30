@@ -17,20 +17,22 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-// mongoose.connect(process.env.MONGO_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// }).then(() => {
-//     console.log('Connected to MongoDB');
-// }).catch(err => {
-//     console.error('Error connecting to MongoDB', err);
-// });
-
-mongoose.connect("mongodb+srv://barungosain:Bg21182114@cluster0.joiqc.mongodb.net/todolistDB").then(() => {
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
     console.log('Connected to MongoDB');
 }).catch(err => {
     console.error('Error connecting to MongoDB', err);
 });
+
+//103.155.194.122/32
+
+// mongoose.connect("mongodb+srv://barungosain:Bg21182114@cluster0.joiqc.mongodb.net/todolistDB").then(() => {
+//     console.log('Connected to MongoDB');
+// }).catch(err => {
+//     console.error('Error connecting to MongoDB', err);
+// });
 
 // Routes
 app.use('/api/todos', todosRoutes);
