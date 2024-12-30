@@ -38,7 +38,7 @@ router.put('/:id', async (req, res) => {
             { text, status, editedDate: new Date() },
             { new: true }
         );
-        res.status(200).json(updatedTodo); 
+        res.status(200).json({ message:'Record updated successfully', data: updatedTodo}); 
     } catch (err) {
         res.status(500).json({ error: 'Failed to update todo', details: err });
     }

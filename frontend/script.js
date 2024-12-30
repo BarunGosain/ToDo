@@ -79,8 +79,8 @@ saveEdit.addEventListener('click', () => {
             // createToDoItemUI(updatedTodoitem);
             console.log("Edit response: ", updatedTodoitem);
             editModal.hide();
-            currentEditSpan.textContent = updatedTodoitem.text;
-            currentEditDate.textContent = `Edited: ${getCurrentFormattedDate(updatedTodoitem.editedDate)}`;
+            currentEditSpan.textContent = updatedTodoitem.data.text;
+            currentEditDate.textContent = `Edited: ${getCurrentFormattedDate(updatedTodoitem.data.editedDate)}`;
             showToast(response.message);
         }).catch(error => {
             deleteModal.hide();
