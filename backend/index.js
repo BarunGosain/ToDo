@@ -17,7 +17,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect("mongodb+srv://barungosain:Bg21182114@cluster0.joiqc.mongodb.net/todolistDB", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
