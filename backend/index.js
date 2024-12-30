@@ -10,7 +10,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin:['https://to-do-api-gamma.vercel.app'],
+    origin:['https://to-do-track-pi.vercel.app'],
     methods:["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
