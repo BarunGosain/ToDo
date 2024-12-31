@@ -37,6 +37,8 @@ let currentEditDate = null; // Reference to the date span of the todo being edit
 let currentDeleteLi = null; // Reference to the current todo being deleted
 
 let currentEditId = null;
+let currentEditStatus = null;
+let currentStatusLabel = null
 let currentDeleteId = null;
 
 const getCurrentFormattedDate = (date) => {
@@ -63,13 +65,15 @@ addTodo.addEventListener('click', () => {
     });
 });
 
+//put
 saveEdit.addEventListener('click', () => {
-    if (currentEditSpan && editTodoInput.value.trim()) {
-        todoText = editTodoInput.value.trim();        
+    if ((currentEditSpan && editTodoInput.value.trim()) || (currentStatusLabel && currentEditStatus)) {
+        todoText = editTodoInput.value.trim();      
         fetch(`https://to-do-api-gamma.vercel.app/api/todos/${currentEditId}`, {
             method: "PUT",
             body: JSON.stringify({
-                text: todoText
+                text: todoText,
+                status: currentEditStatus,
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -81,14 +85,16 @@ saveEdit.addEventListener('click', () => {
             editModal.hide();
             currentEditSpan.textContent = updatedTodoitem.data.text;
             currentEditDate.textContent = `Edited: ${getCurrentFormattedDate(updatedTodoitem.data.editedDate)}`;
+            currentStatusLabel.textContent = updatedTodoitem.data.status;
             showToast(response.message);
         }).catch(error => {
-            deleteModal.hide();
+            editModal.hide();
             showToast(error.error, 'danger');
         });
     }
 });
 
+//delete
 confirmDelete.addEventListener('click', () => {
     if (currentDeleteLi) {
         fetch(`https://to-do-api-gamma.vercel.app/api/todos/${currentDeleteId}`, {
@@ -151,9 +157,15 @@ const createToDoItemUI = (todoitem) => {
 
     const statusLabel = document.createElement('span');
     // statusLabel.textContent = 'Pending';
-    statusLabel.textContent = todoitem.status;
+    statusLabel.textContent = todoitem.status || 'Pending';
     statusLabel.className = 'badge bg-warning text-dark';
-    statusCheckbox.checked = (todoitem.status == 'Completed') ? true : false;
+    if(todoitem.status == 'Completed'){
+        statusCheckbox.checked = true;
+        statusLabel.className = 'badge bg-success';
+        span.style.textDecoration = 'line-through';
+    }else{
+        statusCheckbox.checked = false;
+    }
 
     statusCheckbox.addEventListener('change', () => {
         if (statusCheckbox.checked) {
@@ -165,6 +177,12 @@ const createToDoItemUI = (todoitem) => {
           statusLabel.className = 'badge bg-warning text-dark';
           span.style.textDecoration = 'none';
         }
+
+        currentStatusLabel = statusLabel;
+        currentEditId = todoitem._id;
+        currentEditStatus = statusLabel.textContent;
+        editTodoInput.value = span.textContent;
+        saveEdit.click();
     });
 
     statusDiv.appendChild(statusCheckbox);
@@ -193,6 +211,7 @@ const createToDoItemUI = (todoitem) => {
         currentEditDate = dateSpan; // Save reference to the current date span
         editTodoInput.value = span.textContent; // Populate modal input with current text
         currentEditId = todoitem._id;
+        currentEditStatus = todoitem.status;
         editModal.show(); // Show the modal
     });
 
