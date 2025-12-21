@@ -1,3 +1,5 @@
+const API_BASE_URL = APP_CONFIG.API_BASE_URL;
+
 const todoInput = document.getElementById('todoInput');
 const addTodo = document.getElementById('addTodo');
 const todoList = document.getElementById('todoList');
@@ -69,7 +71,7 @@ addTodo.addEventListener('click', () => {
 saveEdit.addEventListener('click', () => {
     if ((currentEditSpan && editTodoInput.value.trim()) || (currentStatusLabel && currentEditStatus)) {
         todoText = editTodoInput.value.trim();      
-        fetch(`https://to-do-api-gamma.vercel.app/api/todos/${currentEditId}`, {
+        fetch(`${API_BASE_URL}/todos/${currentEditId}`, {
             method: "PUT",
             body: JSON.stringify({
                 text: todoText,
@@ -97,7 +99,7 @@ saveEdit.addEventListener('click', () => {
 //delete
 confirmDelete.addEventListener('click', () => {
     if (currentDeleteLi) {
-        fetch(`https://to-do-api-gamma.vercel.app/api/todos/${currentDeleteId}`, {
+        fetch(`${API_BASE_URL}/todos/${currentDeleteId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -142,10 +144,12 @@ const createToDoItemUI = (todoitem) => {
     actionBtns.className = 'd-flex gap-1';
 
     const todoContent = document.createElement('div');
-    todoContent.className = 'd-flex gap-1 w-100';
+    todoContent.className = 'todo-content d-flex gap-1 w-100';
+    todoContent.style.position = 'relative';
+    todoContent.style.paddingRight = '22px';
 
     const todoStatusContent = document.createElement('div');
-    todoStatusContent.className = 'd-flex flex-row gap-1 w-100';
+    todoStatusContent.className = 'todo-status-content d-flex flex-row gap-1 w-100';
 
     const statusDiv = document.createElement('div');
     statusDiv.className = 'd-flex align-items-center me-3';
@@ -153,6 +157,10 @@ const createToDoItemUI = (todoitem) => {
     const statusCheckbox = document.createElement('input');
     statusCheckbox.type = 'checkbox';
     statusCheckbox.className = 'form-check-input me-2';
+    statusCheckbox.style.width = '16px';
+    statusCheckbox.style.height = '16px';
+    statusCheckbox.style.position = 'absolute';
+    statusCheckbox.style.left = '0';
 
 
     const statusLabel = document.createElement('span');
@@ -245,10 +253,8 @@ const createToDoItemUI = (todoitem) => {
 
 //get
 document.addEventListener('DOMContentLoaded', async () => {
-    const response = await fetch('https://to-do-api-gamma.vercel.app/api/todos');
+    const response = await fetch(`${API_BASE_URL}/todos`);
     const todos = await response.json();
-
-    console.log("todos: ", todos);
 
     todos.forEach(todoitem => {
         // Create list elements for each todo
