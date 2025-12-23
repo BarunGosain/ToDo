@@ -1,5 +1,3 @@
-const API_BASE_URL = APP_CONFIG.API_BASE_URL;
-
 const todoInput = document.getElementById('todoInput');
 const addTodo = document.getElementById('addTodo');
 const todoList = document.getElementById('todoList');
