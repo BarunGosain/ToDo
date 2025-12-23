@@ -144,7 +144,7 @@ const createToDoItemUI = (todoitem) => {
     const todoContent = document.createElement('div');
     todoContent.className = 'todo-content d-flex gap-1 w-100';
     todoContent.style.position = 'relative';
-    todoContent.style.paddingRight = '22px';
+    todoContent.style.paddingLeft = '22px';
 
     const todoStatusContent = document.createElement('div');
     todoStatusContent.className = 'todo-status-content d-flex flex-row gap-1 w-100';
