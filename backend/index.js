@@ -10,11 +10,26 @@ const todosRoutes = require('./routes/todos');
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  "http://localhost:8080",
+  "https://to-do-track-pi.vercel.app"
+];
 app.use(cors({
-    origin:['https://to-do-track-pi.vercel.app'],
-    methods:["GET", "POST", "PUT", "DELETE"],
-    credentials: true
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked"));
+    }
+  },
+  methods:["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
+// app.use(cors({
+//     origin:['https://to-do-track-pi.vercel.app'],
+//     methods:["GET", "POST", "PUT", "DELETE"],
+//     credentials: true
+// }));
 app.use(bodyParser.json());
 
 // Connect to MongoDB
@@ -30,7 +45,15 @@ console.log("env mongodb url: ", process.env.MONGO_URI);
 
 //103.155.194.122/32
 
-mongoose.connect("mongodb+srv://barungosain:Bg21182114@cluster0.joiqc.mongodb.net/todolistDB").then(() => {
+// mongoose.connect("mongodb+srv://barungosain:Bg21182114@cluster0.joiqc.mongodb.net/todolistDB_dev").then(() => {
+//     console.log('Connected to MongoDB');
+// }).catch(err => {
+//     console.error('Error connecting to MongoDB', err);
+// });
+
+mongoose.connect(process.env.MONGO_URI, {
+  dbName: "todolistDB_dev"
+}).then(() => {
     console.log('Connected to MongoDB');
 }).catch(err => {
     console.error('Error connecting to MongoDB', err);

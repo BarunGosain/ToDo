@@ -1,0 +1,18 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "serve:frontend": "live-server . --open=/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ToDo"
+  },
+  "author": "Barun Gosain",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

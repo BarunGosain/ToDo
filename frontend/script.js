@@ -51,7 +51,7 @@ addTodo.addEventListener('click', () => {
     const todoText = todoInput.value.trim();
     if (!todoText) return;
 
-    fetch("https://to-do-api-gamma.vercel.app/api/todos", {
+    fetch(`${API_URL}/todos`, {
         method: "POST",
         body: JSON.stringify({
             text: todoText
@@ -69,7 +69,7 @@ addTodo.addEventListener('click', () => {
 saveEdit.addEventListener('click', () => {
     if ((currentEditSpan && editTodoInput.value.trim()) || (currentStatusLabel && currentEditStatus)) {
         todoText = editTodoInput.value.trim();      
-        fetch(`https://to-do-api-gamma.vercel.app/api/todos/${currentEditId}`, {
+        fetch(`${API_URL}/todos/${currentEditId}`, {
             method: "PUT",
             body: JSON.stringify({
                 text: todoText,
@@ -97,7 +97,7 @@ saveEdit.addEventListener('click', () => {
 //delete
 confirmDelete.addEventListener('click', () => {
     if (currentDeleteLi) {
-        fetch(`https://to-do-api-gamma.vercel.app/api/todos/${currentDeleteId}`, {
+        fetch(`${API_URL}/todos/${currentDeleteId}`, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -251,7 +251,7 @@ const createToDoItemUI = (todoitem) => {
 
 //get
 document.addEventListener('DOMContentLoaded', async () => {
-    const response = await fetch(`https://to-do-api-gamma.vercel.app/api/todos`);
+    const response = await fetch(`${API_URL}/todos`);
     const todos = await response.json();
 
     todos.forEach(todoitem => {
